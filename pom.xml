@@ -122,6 +122,8 @@
     <properties>
         <revision>1.0.0-SNAPSHOT</revision>
 
+        <isis.version>1.17.0</isis.version>
+
         <javafaker.version>0.5</javafaker.version>
         <lombok.version>1.18.0</lombok.version>
 
@@ -130,6 +132,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.apache.isis.core</groupId>
+            <artifactId>isis-core-applib</artifactId>
+            <version>${isis.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
