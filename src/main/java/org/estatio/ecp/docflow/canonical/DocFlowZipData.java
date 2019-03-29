@@ -44,7 +44,8 @@ public class DocFlowZipData {
                     + "(?<p7m>0\\.SRC\\.P7M)?"
                     + "(?<xmlfat>1\\.XML)?"
                     + "(?<xmlmet>2\\.XML)?"
-                    + "(?<pdfsup>3\\.PDF)?",
+                    + "(?<pdfsup2>2\\.PDF)?"   // if metadata is missing, then supplier PDF moves up one.
+                    + "(?<pdfsup3>3\\.PDF)?",
             Pattern.CASE_INSENSITIVE
     );
 
@@ -99,9 +100,18 @@ public class DocFlowZipData {
                 zipData.xmlFileMetadati =
                         toClob(zipEntryName, "application/xml", bytes);
             } else
-            if(!Strings.isNullOrEmpty(matcher.group("pdfsup"))) {
+            if(!Strings.isNullOrEmpty(matcher.group("pdfsup2"))) {
                 zipData.pdfSupplier =
                         toBlob(zipEntryName, "application/pdf", bytes);
+            }
+            if(!Strings.isNullOrEmpty(matcher.group("pdfsup3"))) {
+                if(zipData.pdfSupplier != null) {
+                    // if we've already encountered a PDF for the supplier, then ignore any further ones.
+                    // (we didn't encounter any so far in the real-world samples, so this is only theoretical).
+                } else {
+                    zipData.pdfSupplier =
+                            toBlob(zipEntryName, "application/pdf", bytes);
+                }
             }
         }
         zis.close();
