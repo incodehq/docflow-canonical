@@ -1,10 +1,6 @@
 #
 # requires the following gitlab secret variables
 #
-# - NEXUS_USERNAME
-# - NEXUS_PASSWORD
-# - NEXUS_REPO_URL
-#
 # - GCPAPPENGINEREPO_USERNAME
 # - GCPAPPENGINEREPO_PASSWORD
 # - GCPAPPENGINEREPO_REPO_URL
@@ -32,11 +28,21 @@ build-package-push:
           -Dgcpappenginerepo-deploy.repositoryUrl=$GCPAPPENGINEREPO_URL \
           -Drevision=$REVISION \
           $CORE_ADDITIONAL_OPTS
-    - >
-      mvn -s .m2/settings.xml \
-          --batch-mode \
-          clean deploy \
-          -Drevision=$REVISION \
-          -Dnexus-deploy \
-          -Dnexus-deploy.repositoryUrl=$NEXUS_REPO_URL \
-          $CORE_ADDITIONAL_OPTS
+
+#
+# Previously this script also uploaded to a Sonatype Nexus.
+# Here's the stuff that did it.
+#
+# - NEXUS_USERNAME
+# - NEXUS_PASSWORD
+# - NEXUS_REPO_URL
+#
+#
+#    - >
+#      mvn -s .m2/settings.xml \
+#          --batch-mode \
+#          clean deploy \
+#          -Drevision=$REVISION \
+#          -Dnexus-deploy \
+#          -Dnexus-deploy.repositoryUrl=$NEXUS_REPO_URL \
+#          $CORE_ADDITIONAL_OPTS
